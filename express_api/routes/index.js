@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const { UserController } = require('../controllers');
 
-const uploadDestination = 'upload';
+const uploadDestination = 'uploads';
 
 //showing where to store files
 const storage = multer.diskStorage({
