@@ -13,6 +13,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// example route: http://localhost:3000/api/register
+
 app.use('/api', require('./routes'));
 
 // catch 404 and forward to error handler
