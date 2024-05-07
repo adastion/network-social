@@ -90,21 +90,61 @@ const UserController = {
       const isFollowing = await prisma.follows.findFirst({
         where: {
           AND: [
-            {followerId: userId},
-            {followingId: id}
+            { followerId: userId },
+            { followingId: id }
           ]
         }
       })
 
-      res.json({...user, isFollowing: Boolean(isFollowing)})
+      res.json({ ...user, isFollowing: Boolean(isFollowing) })
     } catch (error) {
       console.error("Get current Error", error);
 
-      res.status(500).json({error: "Internal server error"})
+      res.status(500).json({ error: "Internal server error" })
     }
   },
   updateUser: async (req, res) => {
-    res.send("update user")
+    const { id } = req.params;
+    const { email, name, dateOfBirth, bio, location } = req.body;
+
+    let filePath;
+
+    if (req.file && req.file.path) {
+      filePath = req.file.path
+    }
+
+    if (id !== req.user.userId) {
+      return res.status(403).json({ error: "Нет доступа" })
+    }
+
+    try {
+      if (email) {
+        const existingUser = await prisma.user.findFirst({
+          where: { email: email }
+        })
+
+        if (existingUser && existingUser.id !== id) {
+          return res.status(400).json({ error: "Почта уже используется" })
+        }
+      }
+
+      const user = await prisma.user.update({
+        where: { id },
+        data: {
+          name: name || undefined,
+          email: email || undefined,
+          avatartUrl: filePath ? `/${filePath}` : undefined,
+          dateOfBirth: dateOfBirth || undefined,
+          bio: bio || undefined,
+          location: location || undefined,
+        }
+      })
+
+      res.json(user);
+    } catch (error) {
+      console.error("Update user error", error)
+      res.status(500).json({ error: "Internal server error" })
+    }
   },
   current: async (req, res) => {
     res.send("current")
