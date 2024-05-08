@@ -11,7 +11,7 @@ const UserController = {
     const { email, password, name } = req.body;
 
     if (!email || !password || !name) {
-      return res.status(400).json(_errorMessage400())
+      return res.status(400).json({ error: "Заполните пожалуйста все поля ввода." })
     }
 
     try {
@@ -47,19 +47,19 @@ const UserController = {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json(_errorMessage400());
+      return res.status(400).json({ error: "Заполните пожалуйста все поля ввода." });
     }
 
     try {
       const user = await prisma.user.findUnique({ where: { email } });
 
       if (!user) {
-        return res.status(400).json(_errorMessage400("Не верный логин или пароль"));
+        return res.status(400).json({ error: "Не верный логин или пароль" });
       }
 
       const valid = await bcrypt.compare(password, user.password);
       if (!valid) {
-        return res.status(400).json(_errorMessage400("Не верный логин или пароль"));
+        return res.status(400).json({ error: "Не верный логин или пароль" });
       }
 
       const token = jwt.sign(({ userId: user.id }), process.env.SECRET_KEY);
@@ -131,12 +131,12 @@ const UserController = {
       const user = await prisma.user.update({
         where: { id },
         data: {
-          name: name || undefined,
           email: email || undefined,
-          avatartUrl: filePath ? `/${filePath}` : undefined,
+          name: name || undefined,
+          avatarUrl: filePath ? `/${filePath}` : undefined,
           dateOfBirth: dateOfBirth || undefined,
           bio: bio || undefined,
-          location: location || undefined,
+          location: location || undefined
         }
       })
 
@@ -147,11 +147,36 @@ const UserController = {
     }
   },
   current: async (req, res) => {
-    res.send("current")
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: req.user.userId,
+        },
+        include: {
+          followers: {
+            include: {
+              follower: true
+            }
+          },
+          following: {
+            include: {
+              following: true
+            }
+          }
+        }
+      })
+
+      if (!user) {
+        return res.status(400).json({ error: "Не удалось найти пользователя" })
+      }
+
+      res.json(user)
+    } catch (error) {
+      console.error("Get Current Error")
+
+      res.status(500).json({ error: "Internal server error" })
+    }
   },
 };
 
-const _errorMessage400 = (message) => {
-  return message ? { error: message } : { error: "Заполните пожалуйста все поля ввода." }
-}
 module.exports = UserController;
