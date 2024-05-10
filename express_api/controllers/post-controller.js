@@ -24,8 +24,31 @@ const PostController = {
       res.status(500).json({ error: "Internal server error" })
     }
   },
-  getAllPost: async (req, res) => {
-    res.send("getAllPost")
+  getAllPosts: async (req, res) => {
+    const userId = req.user.userId;
+
+    try {
+      const posts = await prisma.post.findMany({
+        include: {
+          likes: true,
+          author: true,
+          comments: true,
+        },
+        orderBy: {
+          createdAt: "desc"
+        }
+      })
+
+      const postWithLikeInfo = posts.map(post => ({
+        ...post,
+        likedByUser: post.likes.some(like => like.userId === userId)
+      }))
+
+      res.json(postWithLikeInfo)
+    } catch (error) {
+      console.error("Get all posts error", error)
+      res.status(500).json({ error: "Internal server error" })
+    }
   },
   getPostById: async (req, res) => {
     res.send("getPostById")
