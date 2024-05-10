@@ -1,3 +1,4 @@
+const { json } = require('express');
 const { prisma } = require('../prisma/prisma-client');
 
 const PostController = {
@@ -51,7 +52,38 @@ const PostController = {
     }
   },
   getPostById: async (req, res) => {
-    res.send("getPostById")
+    const { id } = req.params;
+    const userId = req.user.userId;
+
+    try {
+      const post = await prisma.post.findUnique({
+        where: { id },
+        include: {
+          comments: {
+            include: {
+              user: true
+            }
+          },
+          likes: true,
+          author: true
+        }
+      })
+
+      if (!post) {
+        return res.status(404), json({ error: "Пост не найден" })
+      }
+
+      const postWithLikeInfo = {
+        ...post,
+        likedByUser: post.likes.some(like => like.userId === userId)
+      }
+
+      res.json(postWithLikeInfo)
+    } catch (error) {
+      console.error("Get post by id error", error)
+
+      res.status(500).json({ error: "Internal server error" })
+    }
   },
   deletePost: async (req, res) => {
     res.send("deletePost")
