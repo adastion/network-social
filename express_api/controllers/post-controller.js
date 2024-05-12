@@ -1,4 +1,3 @@
-const { json } = require('express');
 const { prisma } = require('../prisma/prisma-client');
 
 const PostController = {
