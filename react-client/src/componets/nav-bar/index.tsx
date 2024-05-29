@@ -14,7 +14,7 @@ export const Navbar = () => {
           </NavButton>
         </li>
         <li>
-          <NavButton href="/users/:id" icon={<FiUsers />}>
+          <NavButton href="/following" icon={<FiUsers />}>
             Подписки
           </NavButton>
         </li>
