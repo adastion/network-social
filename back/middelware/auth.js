@@ -1,15 +1,28 @@
-const Auth = async (req, res) => {
-  const { token } = await req.body
+const jwt = require('jsonwebtoken')
+
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"]
+
+  // const token = authHeader && authHeader.split(" ")[1]
+  let token = null
+
+  if (authHeader) {
+    token = authHeader.split(" ")[1]
+  }
 
   if (!token) {
-    return res.status(400).json({ error: "Not valid token " })
+    return res.status(401).json({ error: "Unauthoraize" })
   }
 
-  try {
-    res.status(200)
-    res.json(token)
-  } catch (error) {
-    console.error("Auth error", error)
-    res.status(500).json({ error: "Internal server error" })
-  }
+  jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+    if (err) {
+      return res.status(403).json({ error: "Invalid token" })
+    }
+    req.user = user
+    next()
+  })
+
 }
+
+module.exports = authenticateToken
+

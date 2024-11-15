@@ -72,8 +72,21 @@ const UserController = {
 
   },
   getUserById: async (req, res) => {
-    res.send("3")
+    const { id } = await req.params
+    const userId = await req.user.userId
 
+    try {
+      const user = await prisma.user.findUnique({ where: { id } })
+
+      if (!user) {
+        return res.status(404).json({ error: "Нет такого пользователя" })
+      }
+
+      res.json(user)
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({ error: "Internal server error" })
+    }
   },
   updateUser: async (req, res) => {
     const updateUser = await prisma
