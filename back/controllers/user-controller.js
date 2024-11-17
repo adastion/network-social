@@ -23,7 +23,7 @@ const UserController = {
       const hashedPassword = await bcrypt.hash(password, 10)
       const svg = Jdenticon.toSvg(name, 300)
       const avatarName = `${name}_${Date.now()}.svg`
-      const avatarPath = path.join(__dirname, "../uploads", avatarName)
+      const avatarPath = path.join(__dirname, "/../uploads", avatarName)
       fs.writeFileSync(avatarPath, svg)
 
       const newUser = await prisma.user.create({
@@ -31,11 +31,11 @@ const UserController = {
           email,
           password: hashedPassword,
           name,
-          avatarUrl: `/uploads/${avatarPath}`
+          avatarUrl: `/uploads/${avatarName}`
         }
       })
 
-      res.json(newUser)
+      res.status(201).json(newUser)
     } catch (error) {
       console.log(error, "Error in register", error)
       res.status(500).json({ error: "Internal server error " })

@@ -18,7 +18,7 @@ const CommentsController = {
         }
       })
 
-      res.json(comment)
+      res.status(201).json(comment)
     } catch (error) {
       console.log("Created comment error", error)
       res.status(500).json({ error: "Internal server error" })

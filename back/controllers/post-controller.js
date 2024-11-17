@@ -18,7 +18,7 @@ const PostController = {
         }
       })
 
-      res.json(post)
+      res.status(201).json(post)
     } catch (error) {
       console.log("Create post error", error)
       res.status(500).json({ error: "Internal server error" })
