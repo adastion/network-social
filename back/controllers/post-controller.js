@@ -21,7 +21,7 @@ const PostController = {
       res.json(post)
     } catch (error) {
       console.log("Create post error", error)
-      return res.status(500).json({ error: "Internal server error" })
+      res.status(500).json({ error: "Internal server error" })
     }
   },
   getAllPosts: async (req, res) => {
@@ -83,7 +83,7 @@ const PostController = {
       res.json(postWithLikeInfo)
     } catch (error) {
       console.log("Get post by id error", error)
-      return res.status(500).json({ error: "Internal server error" })
+      res.status(500).json({ error: "Internal server error" })
     }
   },
   deletePost: async (req, res) => {

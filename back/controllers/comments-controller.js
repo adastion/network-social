@@ -25,8 +25,25 @@ const CommentsController = {
     }
   },
   deleteComments: async (req, res) => {
-    try {
+    const { id } = req.params
+    const userId = req.user.userId
 
+    try {
+      const comment = await prisma.comment.findUnique({
+        where: { id }
+      })
+
+      if (!comment) {
+        return res.status(404).json({ error: "Коментарий не найден" })
+      }
+
+      if (comment.userId !== userId) {
+        return res.status(403).json({ error: "Нет доступа" })
+      }
+
+      const deletedComment = await prisma.comment.delete({ where: { id } })
+
+      res.json(deletedComment)
     } catch (error) {
       console.log("Deleted comment error", error)
       res.status(500).json({ error: "Internal server error" })

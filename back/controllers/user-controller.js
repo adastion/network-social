@@ -100,7 +100,7 @@ const UserController = {
       res.json({ ...user, isFollowing: Boolean(isFollowing) })
     } catch (error) {
       console.error("Get curent error", error)
-      return res.status(500).json({ error: "Internal server error" })
+      res.status(500).json({ error: "Internal server error" })
     }
   },
   updateUser: async (req, res) => {
