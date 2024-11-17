@@ -56,10 +56,6 @@ const PostController = {
     const { id } = req.params
     const userId = req.user.userId
 
-    if (!id) {
-      return res.json(400).json({ error: "Такого пользователя не существует" })
-    }
-
     try {
       const post = await prisma.post.findUnique({
         where: { id },
@@ -91,10 +87,31 @@ const PostController = {
     }
   },
   deletePost: async (req, res) => {
-    try {
+    const { id } = req.params
+    const userId = req.user.userId
 
+    const post = await prisma.post.findUnique({
+      where: { id }
+    })
+
+    if (!post) {
+      return res.json(404).json({ error: "Пост не найден" })
+    }
+
+    if (post.authorId !== userId) {
+      return res.status(403).json({ error: "Нет доступа" })
+    }
+
+    try {
+      const transaction = await prisma.$transaction([
+        prisma.comment.deleteMany({ where: { postId: id } }),
+        prisma.like.deleteMany({ where: { postId: id } }),
+        prisma.post.delete({ where: { id } })
+      ])
+
+      res.json(transaction)
     } catch (error) {
-      console.log("", error)
+      console.log("Delete post error", error)
       res.status(500).json({ error: "Internal server error" })
     }
   },
