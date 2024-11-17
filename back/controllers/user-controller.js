@@ -104,13 +104,46 @@ const UserController = {
     }
   },
   updateUser: async (req, res) => {
-    const updateUser = await prisma
+    const { id } = req.params
+    const { email, name, dateOfBirth, location, bio } = req.body
+
+    let filePath
+
+    if (req.file && req.file.path) {
+      filePath = req.file.path
+    }
+
+    if (id !== req.user.userId) {
+      return res.status(403).json({ error: "Нет доступа" })
+    }
 
     try {
-      res.send("4")
+      if (email) {
+        const existingUser = await prisma.user.findFirst({
+          where: { email }
+        })
 
+        if (existingUser && existingUser.id !== id) {
+          return res.status(400).json({ error: "Почта уже используется" })
+        }
+      }
+
+      const user = await prisma.user.update({
+        where: { id },
+        data: {
+          email: email || undefined,
+          name: name || undefined,
+          avatarUrl: filePath ? `/${filePath}` : undefined,
+          dateOfBirth: dateOfBirth || undefined,
+          bio: bio || undefined,
+          location: location || undefined
+        }
+      })
+
+      res.json(user)
     } catch (error) {
-      console.log(error)
+      console.log("Update user error", error)
+      res.status(500).json("Internal server error")
     }
 
   },
