@@ -21,7 +21,7 @@ const UserController = {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10)
-      const svg = Jdenticon.toSvg(name, 300)
+      const svg = Jdenticon.toSvg(`${name}${Date.now()}`, 300)
       const avatarName = `${name}_${Date.now()}.svg`
       const avatarPath = path.join(__dirname, "/../uploads", avatarName)
       fs.writeFileSync(avatarPath, svg)
