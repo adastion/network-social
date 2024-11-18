@@ -1,0 +1,17 @@
+version: "3"
+services:
+  server-app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      DATABASE_URL: "mongodb://adastion:dron@mongodb:27017/mongo?authSource=admin&directConnection=true"
+  mongodb:
+    image: prismagraphql/mongo-single-replica:5.0.3
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "adastion"
+      MONGO_INITDB_ROOT_PASSWORD: "dron"
