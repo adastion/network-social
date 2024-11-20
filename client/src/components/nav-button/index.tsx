@@ -1,0 +1,21 @@
+import React from "react"
+import { Button } from "../button"
+import { Link } from "react-router-dom"
+
+type TypeNavBarProps = {
+  children: React.ReactNode
+  icon: JSX.Element
+  href: string
+}
+
+export const NavButton: React.FC<TypeNavBarProps> = ({
+  children,
+  icon,
+  href,
+}) => {
+  return (
+    <Button className="flex justify-start text-xl" icon={icon}>
+      <Link to={href}>{children}</Link>
+    </Button>
+  )
+}

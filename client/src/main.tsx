@@ -7,17 +7,46 @@ import App from "./App"
 import { store } from "./app/store"
 import { ThemeProvider } from "./components/theme-provider"
 import "./index.css"
+import { Auth } from "./pages/auth"
+import { Layout } from "./components/layout"
+import { Posts } from "./pages/posts"
+import { CurrentPost } from "./pages/current-post"
+import { UserProfile } from "./pages/user-profile"
+import { Followers } from "./pages/followers"
+import { Following } from "./pages/following"
 
 const container = document.getElementById("root")
 
 const router = createBrowserRouter([
   {
     path: "/auth",
-    element: <h1>Auth</h1>,
+    element: <Auth />,
   },
   {
     path: "/",
-    element: <h1>layout</h1>,
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <Posts />,
+      },
+      {
+        path: "posts/:id",
+        element: <CurrentPost />,
+      },
+      {
+        path: "user/:id",
+        element: <UserProfile />,
+      },
+      {
+        path: "followers",
+        element: <Followers />,
+      },
+      {
+        path: "following",
+        element: <Following />,
+      },
+    ],
   },
 ])
 
@@ -30,7 +59,6 @@ if (container) {
         <NextUIProvider>
           <ThemeProvider>
             <RouterProvider router={router} />
-            <App />
           </ThemeProvider>
         </NextUIProvider>
       </Provider>
