@@ -21,8 +21,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       const newTheme = prevTheme === "light" ? "dark" : "light"
       localStorage.setItem("theme", newTheme)
 
-      console.log(newTheme)
-      return newTheme
+       return newTheme
     })
   }
 
