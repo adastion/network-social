@@ -37,8 +37,9 @@ export const Login: React.FC<TypeLoginProps> = ({ setSelected }) => {
 
   const onSubmit = async (data: TypeLogin) => {
     try {
-      console.log(data)
       await login(data).unwrap()
+      await triggerCurrentQuery().unwrap()
+      navigite("/")
     } catch (error) {
       if (hasErrorFild(error)) {
         setError(error.data.error)

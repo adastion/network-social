@@ -38,7 +38,6 @@ export const Register: React.FC<TypeRegisterProps> = ({ setSelected }) => {
 
   const onSubmit = async (data: TypeRegister) => {
     try {
-      console.log(data)
       await register(data).unwrap()
       setSelected("login")
     } catch (error) {
