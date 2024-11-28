@@ -1,9 +1,8 @@
 import { Button, Link } from "@nextui-org/react"
-import { Input } from "../components/input"
-import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { useForm } from "react-hook-form"
 import { useRegisterMutation } from "../app/services/userApi"
+import { Input } from "../components/input"
 import { hasErrorFild } from "../utils/has-error-fild"
 import { ErrorMessage } from "./../components/error-message/index"
 
@@ -33,7 +32,6 @@ export const Register: React.FC<TypeRegisterProps> = ({ setSelected }) => {
   })
 
   const [register, { isLoading }] = useRegisterMutation()
-  const navigite = useNavigate()
   const [error, setError] = useState("")
 
   const onSubmit = async (data: TypeRegister) => {

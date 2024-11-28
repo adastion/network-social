@@ -4,7 +4,7 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { FaRegMoon } from "react-icons/fa"
 import { IoExitOutline } from "react-icons/io5"
 import { LuSunMedium } from "react-icons/lu"
@@ -13,6 +13,15 @@ import { NavButton } from "./../nav-button/index"
 
 export const Header = () => {
   const { theme, toggleTheme } = useContext(ThemeContext)
+
+  const logOut = () => {
+    localStorage.removeItem("token")
+  }
+  
+  useEffect(()=> {
+
+  }, [])
+  
 
   return (
     <Navbar>
@@ -29,7 +38,7 @@ export const Header = () => {
           {theme === "light" ? <FaRegMoon /> : <LuSunMedium />}
         </NavbarItem>
         <NavbarItem>
-          <NavButton href="/auth" icon={<IoExitOutline />}>
+          <NavButton href="/auth" icon={<IoExitOutline />} onPress={logOut}>
             Выход
           </NavButton>
         </NavbarItem>
