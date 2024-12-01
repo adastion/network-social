@@ -16,7 +16,7 @@ export const NavButton: React.FC<TypeNavBarProps> = ({
   onPress,
 }) => {
   return (
-    <Button className="flex justify-start text-xl text-inherit" icon={icon}>
+    <Button className="flex items-center justify-start text-xl text-inherit" icon={icon}>
       <Link onPress={onPress} href={href} className="text-xl text-inherit">
         {children}
       </Link>

@@ -1,27 +1,30 @@
 import {
+  Button,
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react"
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { FaRegMoon } from "react-icons/fa"
-import { IoExitOutline } from "react-icons/io5"
 import { LuSunMedium } from "react-icons/lu"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { logout, selectIsAuthenticated } from "../../features/userSlice"
 import { ThemeContext } from "../theme-provider"
-import { NavButton } from "./../nav-button/index"
+import { CiLogout } from "react-icons/ci"
 
 export const Header = () => {
   const { theme, toggleTheme } = useContext(ThemeContext)
+  const isAuthenticated = useSelector(selectIsAuthenticated)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const logOut = () => {
+    dispatch(logout())
     localStorage.removeItem("token")
+    navigate("/auth")
   }
-  
-  useEffect(()=> {
-
-  }, [])
-  
 
   return (
     <Navbar>
@@ -38,9 +41,16 @@ export const Header = () => {
           {theme === "light" ? <FaRegMoon /> : <LuSunMedium />}
         </NavbarItem>
         <NavbarItem>
-          <NavButton href="/auth" icon={<IoExitOutline />} onPress={logOut}>
-            Выход
-          </NavButton>
+          {isAuthenticated && (
+            <Button
+              color="default"
+              variant="flat"
+              className="gap-2"
+              onClick={logOut}
+            >
+              <CiLogout /> <span>Выход</span>
+            </Button>
+          )}
         </NavbarItem>
       </NavbarContent>
     </Navbar>
