@@ -12,7 +12,7 @@ export const MetaInfo: React.FC<TypeMetaInfoProps> = ({ count, Icon }) => {
       {count > 0 && (
         <p className="font-semibold text-default-400 text-l"> {count}</p>
       )}
-      <p className="text-default-400 text-xl hover:text2xl ease-in-out duration-100">
+      <p className="text-default-400 text-xl hover:text-2xl ease-in-out duration-100">
         <Icon />
       </p>
     </div>

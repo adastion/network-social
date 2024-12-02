@@ -28,6 +28,7 @@ import { Typography } from "../typography"
 import { User } from "../user"
 import { FaRegComment } from "react-icons/fa"
 import { ErrorMessage } from "./../error-message/index"
+import { hasErrorFild } from "../../utils/has-error-fild"
 
 type TypeCardProps = {
   avatarUrl: string
@@ -60,11 +61,61 @@ export const Card: React.FC<TypeCardProps> = ({
   const [unlikePost] = useDeleteLikeMutation()
   const [triggerGetAllPosts] = useLazyGetAllPostQuery()
   const [triggerGetPostById] = useLazyGetPostByIdQuery()
-  const [deletePos, deletePostStatus] = useDeletePostMutation()
+  const [deletePost, deletePostStatus] = useDeletePostMutation()
   const [deleteComment, deleteCommentStatus] = useDeleteCommentMutation()
   const [error, setError] = useState("")
   const navigate = useNavigate()
   const currentUser = useSelector(selectCurrent)
+
+  const refetchPosts = async () => {
+    switch (cardFor) {
+      case "post":
+        await triggerGetAllPosts().unwrap()
+        break
+      case "current-post":
+        await triggerGetAllPosts().unwrap()
+        break
+      case "comment":
+        await triggerGetPostById(id).unwrap()
+      default:
+        throw new Error("Не верный аргумент cardFor")
+    }
+  }
+
+  const handelDelete = async () => {
+    try {
+      switch (cardFor) {
+        case "post":
+          await deletePost(id).unwrap()
+          await refetchPosts()
+          break
+        case "current-post":
+          await deletePost(id).unwrap()
+          navigate("/")
+          break
+        case "comment":
+          await deleteComment(id).unwrap()
+          await refetchPosts()
+          break
+        default:
+          throw new Error("Не верный аргумент cardFor")
+      }
+    } catch (error) {
+      if (hasErrorFild(error)) {
+        setError(error.data.error)
+      } else [setError(error as string)]
+    }
+  }
+
+  const handelClik = async () => {
+    try {
+      likedByUser ? await unlikePost(id).unwrap() : await likePost({postId: id}).unwrap()
+      await refetchPosts()
+    } catch (error) {
+      
+    }
+  }
+
   return (
     <NextUiCard className="mb-5">
       <CardHeader className="justify-between items-center bg-transparent">
@@ -81,7 +132,7 @@ export const Card: React.FC<TypeCardProps> = ({
             {deletePostStatus.isLoading || deleteCommentStatus.isLoading ? (
               <Spinner />
             ) : (
-              <RiDeleteBinLine />
+              <RiDeleteBinLine onClick={handelDelete} />
             )}
           </div>
         )}
@@ -92,9 +143,9 @@ export const Card: React.FC<TypeCardProps> = ({
       {cardFor !== "comment" && (
         <CardFooter className="gap-3">
           <div className="flex gap-5 items-center">
-            <div>
+            <div onClick={handelClik}>
               <MetaInfo
-                count={commentsCount}
+                count={likesCount}
                 Icon={likedByUser ? FcDislike : MdOutlineFavoriteBorder}
               />
             </div>
