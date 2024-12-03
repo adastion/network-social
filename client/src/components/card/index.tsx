@@ -94,7 +94,7 @@ export const Card: React.FC<TypeCardProps> = ({
           navigate("/")
           break
         case "comment":
-          await deleteComment(id).unwrap()
+          await deleteComment(commentId).unwrap()
           await refetchPosts()
           break
         default:
@@ -109,11 +109,11 @@ export const Card: React.FC<TypeCardProps> = ({
 
   const handelClik = async () => {
     try {
-      likedByUser ? await unlikePost(id).unwrap() : await likePost({postId: id}).unwrap()
-      await refetchPosts()
-    } catch (error) {
-      
-    }
+      likedByUser
+        ? await unlikePost(id).unwrap()
+        : await likePost({ postId: id }).unwrap()
+      await triggerGetPostById(id).unwrap()
+    } catch (error) {}
   }
 
   return (
