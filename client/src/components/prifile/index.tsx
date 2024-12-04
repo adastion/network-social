@@ -24,7 +24,7 @@ export const UserProfile = () => {
         />
       </CardHeader>
       <CardBody>
-        <Link to={`/user/${id}`}>
+        <Link to={`/users/${id}`}>
           <h4 className="font-bold mb-2 text-large">{name}</h4>
           <p className="text-default-500 flex items-center gap-2">
             <MdAlternateEmail />

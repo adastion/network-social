@@ -82,7 +82,7 @@ export const Card: React.FC<TypeCardProps> = ({
     }
   }
 
-  const handelDelete = async () => {
+  const handleDelete = async () => {
     try {
       switch (cardFor) {
         case "post":
@@ -107,11 +107,12 @@ export const Card: React.FC<TypeCardProps> = ({
     }
   }
 
-  const handelClik = async () => {
+  const handleClik = async () => {
     try {
       likedByUser
         ? await unlikePost(id).unwrap()
         : await likePost({ postId: id }).unwrap()
+      await refetchPosts()
       await triggerGetPostById(id).unwrap()
     } catch (error) {}
   }
@@ -132,7 +133,7 @@ export const Card: React.FC<TypeCardProps> = ({
             {deletePostStatus.isLoading || deleteCommentStatus.isLoading ? (
               <Spinner />
             ) : (
-              <RiDeleteBinLine onClick={handelDelete} />
+              <RiDeleteBinLine onClick={handleDelete} />
             )}
           </div>
         )}
@@ -143,7 +144,7 @@ export const Card: React.FC<TypeCardProps> = ({
       {cardFor !== "comment" && (
         <CardFooter className="gap-3">
           <div className="flex gap-5 items-center">
-            <div onClick={handelClik}>
+            <div onClick={handleClik}>
               <MetaInfo
                 count={likesCount}
                 Icon={likedByUser ? FcDislike : MdOutlineFavoriteBorder}

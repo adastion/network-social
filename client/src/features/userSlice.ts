@@ -30,14 +30,15 @@ const userSlice = createSlice({
   extraReducers: builder => {
     builder
       .addMatcher(userApi.endpoints.login.matchFulfilled, (state, action) => {
-        (state.token = action.payload.token), (state.isAuthenticated = true)
+        state.token = action.payload.token
+        state.isAuthenticated = true
       })
       .addMatcher(userApi.endpoints.current.matchFulfilled, (state, action) => {
-        (state.isAuthenticated = true), (state.current = action.payload)
+        state.isAuthenticated = true
+        state.current = action.payload
       })
       .addMatcher(
-        userApi.endpoints.getUserById.matchFulfilled,
-        (state, action) => {
+        userApi.endpoints.getUserById.matchFulfilled, (state, action) => {
           state.user = action.payload
         },
       )
