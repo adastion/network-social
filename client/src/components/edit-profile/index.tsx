@@ -63,7 +63,7 @@ export const EditProfile: React.FC<TypesEditProfileProps> = ({
           formData.append("email", data.email)
         data.dateOfBirth &&
           formData.append(
-            "dataOfBirth",
+            "dateOfBirth",
             new Date(data.dateOfBirth).toISOString(),
           )
         data.bio && formData.append("bio", data.bio)

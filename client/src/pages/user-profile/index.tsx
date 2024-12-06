@@ -80,7 +80,7 @@ export const UserProfile = () => {
             alt={data.name}
             width={200}
             height={200}
-            className="border-4 borer-white"
+            className="object-cover object-top border-4 borer-white"
           />
           <div className="flex flex-col text-2xl font-bold gap-4 items-center">
             {data.name}
