@@ -113,7 +113,14 @@ export const Card: React.FC<TypeCardProps> = ({
         ? await unlikePost(id).unwrap()
         : await likePost({ postId: id }).unwrap()
       await refetchPosts()
-      await triggerGetPostById(id).unwrap()
+
+      if (cardFor === "post") {
+        await triggerGetAllPosts().unwrap()
+      }
+
+      if (cardFor === "current-post") {
+        await triggerGetPostById(id).unwrap()
+      }
     } catch (error) {}
   }
 
