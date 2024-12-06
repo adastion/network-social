@@ -7,7 +7,7 @@ const authenticateToken = require("../middelware/auth")
 const uploadDestination = "uploads"
 
 const storage = multer.diskStorage({
-  destinationn: uploadDestination,
+  destination: uploadDestination,
   fileName: (res, file, cb) => {
     cb(null, file.originalname)
   }
