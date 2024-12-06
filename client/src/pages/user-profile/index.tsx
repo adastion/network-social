@@ -22,6 +22,7 @@ import { resetUser, selectCurrent } from "../../features/userSlice"
 import { CountInfo } from "./../../components/count-info/index"
 import { GoBack } from "./../../components/go-back/index"
 import { formatToClientDate } from "./../../utils/format-to-client-date"
+import { EditProfile } from "../../components/edit-profile"
 
 export const UserProfile = () => {
   const { id } = useParams<{ id: string }>()
@@ -40,7 +41,7 @@ export const UserProfile = () => {
 
   const handleFollow = async () => {
     try {
-      if (id) { 
+      if (id) {
         data?.isFollowing
           ? await unfollowUser(id).unwrap()
           : await followUser({ followingId: id }).unwrap()
@@ -49,7 +50,7 @@ export const UserProfile = () => {
         await triggerCurrentQuery()
       }
     } catch (error) {
-      console.log("Problems in follow",error)
+      console.log("Problems in follow", error)
     }
   }
 
@@ -88,9 +89,11 @@ export const UserProfile = () => {
                 {data.isFollowing ? "Отписаться" : "Подписаться"}
               </Button>
             ) : (
-              <Button endContent={<CiEdit />}>
-                Редактировать
-              </Button>
+              <>
+                <Button onClick={onOpen} endContent={<CiEdit />}>
+                  Редактировать
+                </Button>
+              </>
             )}
           </div>
         </Card>
@@ -108,6 +111,7 @@ export const UserProfile = () => {
           </div>
         </Card>
       </div>
+      <EditProfile isOpen={isOpen} onClose={onClose} user={data}/>
     </>
   )
 }

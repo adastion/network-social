@@ -3,10 +3,13 @@ import React from "react"
 
 type TypeButtonProps = {
   children: React.ReactNode
+  onPress?: () => void
+  variant?: string
   icon?: JSX.Element
-  className: string
+  className?: string
   type?: "button" | "submit" | "reset"
   fullwidth?: boolean
+  isLoading?: boolean
   color?:
     | "default"
     | "primary"
@@ -24,6 +27,8 @@ export const Button: React.FC<TypeButtonProps> = ({
   type,
   fullwidth,
   color,
+  isLoading,
+  onPress,
 }) => {
   return (
     <NextButton
@@ -34,6 +39,8 @@ export const Button: React.FC<TypeButtonProps> = ({
       className={className}
       type={type}
       fullWidth={fullwidth}
+      isLoading={isLoading}
+      onPress={onPress}
     >
       {children}
     </NextButton>

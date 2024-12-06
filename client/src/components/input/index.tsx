@@ -45,6 +45,7 @@ export const Input: React.FC<TypeInputProps> = ({
       onChange={field.onChange}
       onBlur={field.onBlur}
       errorMessage={`${errors[name]?.message ?? ""}`}
+      endContent={endContent}
     />
   )
 }
