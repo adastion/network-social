@@ -17,7 +17,6 @@ export const CreateComment = () => {
     formState: { errors },
     setValue,
   } = useForm()
-  const error = errors?.post?.message as string
 
   const onSubmit = handleSubmit(async data => {
     try {
@@ -26,9 +25,13 @@ export const CreateComment = () => {
         setValue("comment", "")
         await getPostById(id).unwrap()
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("Error", error)
+    }
   })
 
+  const error = errors?.post?.message as string
+  
   return (
     <form className="flrx-grow" onSubmit={onSubmit}>
       <Controller

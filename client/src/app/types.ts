@@ -5,10 +5,10 @@ export type User = {
   name?: string
   avatarUrl?: string
   dateOfBirth?: Date
-  createdAt?: Date
-  updateAt?: Date
-  bio: string
-  location: string
+  createdAt: Date
+  updateAt: Date
+  bio?: string
+  location?: string
   posts: Post[]
   likes: Like[]
   comments: Comment[]

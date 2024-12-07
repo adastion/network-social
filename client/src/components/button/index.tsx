@@ -1,4 +1,4 @@
-import { Button as NextButton } from "@nextui-org/react"
+import { Button as NextUiButton } from "@nextui-org/react"
 import React from "react"
 
 type TypeButtonProps = {
@@ -31,7 +31,7 @@ export const Button: React.FC<TypeButtonProps> = ({
   onPress,
 }) => {
   return (
-    <NextButton
+    <NextUiButton
       startContent={icon}
       size="lg"
       color={color}
@@ -43,6 +43,6 @@ export const Button: React.FC<TypeButtonProps> = ({
       onPress={onPress}
     >
       {children}
-    </NextButton>
+    </NextUiButton>
   )
 }

@@ -1,10 +1,13 @@
 import { FaRegArrowAltCircleLeft } from "react-icons/fa"
+import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { selectCurrent } from "../../features/userSlice"
 
 export const GoBack = () => {
   const navigate = useNavigate()
   const handleGoBack = () => {
     navigate(-1)
+    const user = useSelector(selectCurrent)
   }
 
   return (
