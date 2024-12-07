@@ -6,6 +6,7 @@ services:
       - "3000:3000"
     depends_on:
       - mongodb
+      - react-client
     environment:
       DATABASE_URL: "mongodb://adastion:dron@mongodb:27017/mongo?authSource=admin&directConnection=true"
   mongodb:
@@ -15,3 +16,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: "adastion"
       MONGO_INITDB_ROOT_PASSWORD: "dron"
+  react-client:
+    build: ../client
+    ports:
+      - "80:80"
