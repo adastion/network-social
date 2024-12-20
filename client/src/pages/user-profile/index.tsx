@@ -73,7 +73,7 @@ export const UserProfile = () => {
   return (
     <>
       <GoBack />
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         <Card className="flex flex-col items-center text-center space-y-4 p-5 flex-2">
           <Image
             src={`${BASE_URL}${data.avatarUrl}`}

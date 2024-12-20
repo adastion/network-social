@@ -30,7 +30,7 @@ export const CreatePost = () => {
   })
 
   return (
-    <form className="flrx-grow" onSubmit={onSubmit}>
+    <form className="flex-grow" onSubmit={onSubmit}>
       <Controller
         name="post"
         control={control}

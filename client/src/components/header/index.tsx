@@ -29,7 +29,7 @@ export const Header = () => {
   return (
     <Navbar>
       <NavbarBrand>
-        <p className="font-bold text-inherit text-4xl">
+        <p className="font-bold text-inherit text-1xl sm:text-3xl md:text-4xl ">
           Adastion social project
         </p>
       </NavbarBrand>

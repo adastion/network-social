@@ -14,7 +14,7 @@ export const UserProfile = () => {
 
   const { id, name, email, avatarUrl } = currentUser
   return (
-    <Card className="py-4 w-[302px]">
+    <Card className="py-4 w-25 md:w-[302px]">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-center">
         <Image
           alt="card profilr"
@@ -26,7 +26,7 @@ export const UserProfile = () => {
       <CardBody>
         <Link to={`/users/${id}`}>
           <h4 className="font-bold mb-2 text-large">{name}</h4>
-          <p className="text-default-500 flex items-center gap-2">
+          <p className="text-default-500 flex items-cёenter gap-2">
             <MdAlternateEmail />
             {email}
           </p>
