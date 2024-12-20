@@ -10,10 +10,11 @@ import {
 import { NavBar } from "../nav-bar"
 import { useContext } from "react"
 import { ThemeContext } from "../theme-provider"
+import { CiMenuBurger } from "react-icons/ci"
 
 export const Menu = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const {theme} = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
 
   const handleOpen = (placement: "left" | "right" | "top" | "bottom") => {
     onOpen()
@@ -22,11 +23,21 @@ export const Menu = () => {
   return (
     <>
       <div className="md:hidden flex flex-wrap gap-3">
-        <Button className="capitalize" onPress={() => handleOpen("right")}>
-          Open menu
+        <Button
+          type="button"
+          className="capitalize"
+          onPress={() => handleOpen("right")}
+        >
+          <CiMenuBurger className="size-7" />
         </Button>
       </div>
-      <Drawer size="full" isOpen={isOpen} placement={"right"} onOpenChange={onOpenChange} className={`${theme} text-foreground w-100`}>
+      <Drawer
+        size="lg"
+        isOpen={isOpen}
+        placement={"right"}
+        onOpenChange={onOpenChange}
+        className={`${theme} text-foreground w-100`}
+      >
         <DrawerContent>
           {onClose => (
             <>
@@ -38,7 +49,7 @@ export const Menu = () => {
               </DrawerBody>
               <DrawerFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
-                  Close
+                  Закрыть
                 </Button>
               </DrawerFooter>
             </>

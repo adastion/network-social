@@ -102,7 +102,7 @@ export const UserProfile = () => {
               </Button>
             ) : (
               <>
-                <Button onClick={onOpen} endContent={<CiEdit />}>
+                <Button type="button" onClick={onOpen} endContent={<CiEdit />}>
                   Редактировать
                 </Button>
               </>

@@ -47,6 +47,7 @@ export const Header = () => {
               variant="flat"
               className="gap-2"
               onClick={logOut}
+              type="button"
             >
               <CiLogout /> <span>Выход</span>
             </Button>

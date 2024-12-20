@@ -82,7 +82,6 @@ export const EditProfile: React.FC<TypesEditProfileProps> = ({
 
   return (
     <Modal
-      backdrop="opaque"
       isOpen={isOpen}
       onClose={onClose}
       className={`${theme} text-foreground`}

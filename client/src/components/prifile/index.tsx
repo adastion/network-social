@@ -17,7 +17,7 @@ export const UserProfile = () => {
     <Card className="py-4 w-25 md:w-[302px]">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-center">
         <Image
-          alt="card profilr"
+          alt="card profile"
           className="object-cover object-top rounded-xl"
           src={`${BASE_URL}${avatarUrl}`}
           width={370}
